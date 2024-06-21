@@ -16,9 +16,34 @@ class Extensions {
             val date = inputFormat.parse(this)
             return outputFormat.format(date!!)
         }
-        fun kelvinToCelsius(kelvin: Double): Double {
-            return kelvin - 273.15
+        fun Double.kelvinToCelsius(): Double {
+            return this - 273.15
         }
+
+        fun String.replaceSpaces(): String {
+            return this.replace(" ", "%20")
+        }
+
+        fun getListCityId(): List<Int> = listOf(
+            Constants.ID_CITY_CONSTANTS.LAKE_ZURICH,
+            Constants.ID_CITY_CONSTANTS.UPPER_HUNT,
+            Constants.ID_CITY_CONSTANTS.DAVOS,
+            Constants.ID_CITY_CONSTANTS.ALASKA,
+            Constants.ID_CITY_CONSTANTS.SAHARA_VILLAGE,
+            Constants.ID_CITY_CONSTANTS.SANDY_HILLS,
+            Constants.ID_CITY_CONSTANTS.BELGRADE,
+            Constants.ID_CITY_CONSTANTS.CALIFORNIA)
+
+        fun getListCityName():List<String> = listOf(
+            Constants.NAME_CITY_CONSTANTS.LAKE_ZURICH,
+            Constants.NAME_CITY_CONSTANTS.UPPER_HUNT,
+            Constants.NAME_CITY_CONSTANTS.DAVOS,
+            Constants.NAME_CITY_CONSTANTS.ALASKA,
+            Constants.NAME_CITY_CONSTANTS.SAHARA_VILLAGE,
+            Constants.NAME_CITY_CONSTANTS.SANDY_HILLS,
+            Constants.NAME_CITY_CONSTANTS.BELGRADE,
+            Constants.NAME_CITY_CONSTANTS.CALIFORNIA
+        )
     }
 
 }
