@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_circular_rectangle_white_grey"
+    android:layout_margin="8dp"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tvFrequency"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:fontFamily="@font/merriweather_regular"
+        android:textColor="@color/aztec_jade"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:text="@string/tvDummyFrequency"/>
+
+    <TextView
+        android:id="@+id/tvCityName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/tvFrequency"
+        app:layout_constraintTop_toTopOf="@id/tvFrequency"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/inter_medium"
+        android:textColor="@color/black_river_falls"
+        android:textSize="16sp"
+        android:text="@string/tvDummyCityName"/>
+
+    <TextView
+        android:id="@+id/tvAvgTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvCityName"
+        app:layout_constraintBottom_toBottomOf="@id/tvCityName"
+        android:layout_marginEnd="25dp"
+        android:fontFamily="@font/inter_medium"
+        android:textColor="@color/black_river_falls"
+        android:textSize="18sp"
+        android:text="@string/tvDummyAvgTemp"/>
+
+    <TextView
+        android:id="@+id/tvMinTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/tvCityName"
+        app:layout_constraintBottom_toBottomOf="@id/tvFrequency"
+        android:fontFamily="@font/inter_medium"
+        android:textColor="@color/black_river_falls"
+        android:textSize="16sp"
+        android:text="@string/tvDummyMinTemp"/>
+
+    <TextView
+        android:id="@+id/tvMaxTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/tvMinTemp"
+        app:layout_constraintTop_toTopOf="@id/tvMinTemp"
+        app:layout_constraintBottom_toBottomOf="@id/tvMinTemp"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/inter_medium"
+        android:textColor="@color/black_river_falls"
+        android:textSize="16sp"
+        android:text="@string/tvDummyMaxTemp"/>
+
+    <ImageView
+        android:id="@+id/ivIconWeather"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toEndOf="@+id/tvMaxTemp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAvgTemp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ex_weather"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

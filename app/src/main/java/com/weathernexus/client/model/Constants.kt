@@ -33,4 +33,17 @@ class Constants {
             }
         }
     }
+
+    interface CITY_CONSTANTS{
+        companion object{
+            const val LAKE_ZURICH = 4899170
+            const val UPPER_HUNT = 6244895
+            const val DAVOS = 2661039
+            const val ALASKA = 5879092
+            const val SAHARA_VILLAGE = 5780908
+            const val SANDY_HILLS = 5781070
+            const val BELGRADE = 792680
+            const val CALIFORNIA = 4350049
+        }
+    }
 }

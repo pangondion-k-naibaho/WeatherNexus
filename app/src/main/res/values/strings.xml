@@ -3,4 +3,12 @@
     <string name="tvDummy_Title">Dummy Title</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tvDummyFrequency">23</string>
+    <string name="tvDummyCityName">Sahara Village</string>
+    <string name="tvMinTemp">min: %s\u00B0C</string>
+    <string name="tvMaxTemp">max: %s\u00B0C</string>
+    <string name="tvAvgTemp">%s\u00B0C</string>
+    <string name="tvDummyMinTemp">min: 16.31\u00B0C</string>
+    <string name="tvDummyMaxTemp">max: 19.4\u00B0C</string>
+    <string name="tvDummyAvgTemp">17.76\u00B0C</string>
 </resources>
