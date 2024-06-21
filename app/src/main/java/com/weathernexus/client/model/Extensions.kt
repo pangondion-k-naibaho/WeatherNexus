@@ -1,6 +1,7 @@
 package com.weathernexus.client.model
 
 import android.content.Context
+import com.weathernexus.client.model.dataclass.current_weather.CurrentWeatherResponse
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -44,6 +45,14 @@ class Extensions {
             Constants.NAME_CITY_CONSTANTS.BELGRADE,
             Constants.NAME_CITY_CONSTANTS.CALIFORNIA
         )
+
+        fun Double.roundToTwoDecimalPlaces(): Double {
+            return String.format("%.2f", this).toDouble()
+        }
+
+        fun ArrayList<CurrentWeatherResponse>.sortByFrequency(){
+            this.sortBy { it.frequency }
+        }
     }
 
 }

@@ -39,7 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvCityName"
         app:layout_constraintBottom_toBottomOf="@id/tvCityName"
-        android:layout_marginEnd="25dp"
+        android:layout_marginEnd="20dp"
         android:fontFamily="@font/inter_medium"
         android:textColor="@color/black_river_falls"
         android:textSize="18sp"
@@ -71,12 +71,13 @@
 
     <ImageView
         android:id="@+id/ivIconWeather"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toEndOf="@+id/tvMaxTemp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_circle_grey_white"
+        android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAvgTemp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvMaxTemp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMaxTemp"
         android:src="@drawable/ex_weather"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

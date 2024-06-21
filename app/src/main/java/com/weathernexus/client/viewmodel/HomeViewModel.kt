@@ -31,13 +31,7 @@ class HomeViewModel: ViewModel() {
         val currentList = _listCurrentWeather.value ?: ArrayList()
 
         inputs.forEach {input ->
-            val inputCity = if(input.contains(" ")){
-                input.replaceSpaces()
-            }else{
-                input
-            }
-
-            val client = ApiConfig.getApiService().getCurrentWeather(inputCity)
+            val client = ApiConfig.getApiService().getCurrentWeather(input)
             client.enqueue(object: retrofit2.Callback<CurrentWeatherResponse>{
                 override fun onResponse(
                     call: Call<CurrentWeatherResponse>,

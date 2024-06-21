@@ -6,15 +6,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.weathernexus.client.R
 import com.weathernexus.client.databinding.FragmentWeathersBinding
+import com.weathernexus.client.model.Extensions
 import com.weathernexus.client.view.activity.Home.CategoriesHomeCommunicator
+import com.weathernexus.client.view.adapter.ItemCWAdapter
+import com.weathernexus.client.viewmodel.HomeViewModel
 
 class CloudsFragment : Fragment() {
     private val TAG = CloudsFragment::class.java.simpleName
     private lateinit var binding: FragmentWeathersBinding
     private var deliveredCategory: String?= null
     private lateinit var categoriesHomeCommunicator: CategoriesHomeCommunicator
+    private val homeViewModel by viewModels<HomeViewModel>()
+    private var itemCWAdapter: ItemCWAdapter?= null
 
     companion object{
         private const val DELIVERED_CATEGORY = "DELIVERED_CATEGORY"
@@ -53,7 +60,28 @@ class CloudsFragment : Fragment() {
     }
 
     private fun setUpView(){
+        homeViewModel.getListCurrentWeather(Extensions.getListCityName())
 
+        homeViewModel.isLoading.observe(this@CloudsFragment.requireActivity(), {
+            if(it) categoriesHomeCommunicator.startLoading() else categoriesHomeCommunicator.stopLoading()
+        })
+
+        homeViewModel.isFail.observe(this@CloudsFragment.requireActivity(), {
+            if(it) Log.d(TAG, "failed")
+        })
+
+        homeViewModel.listCurrentWeather.observe(this@CloudsFragment.requireActivity(), {listWeather->
+            binding.apply {
+                rvItemNews.apply {
+                    itemCWAdapter = ItemCWAdapter(listWeather)
+                    val myLayoutManager = LinearLayoutManager(this@CloudsFragment.requireActivity())
+
+
+                    adapter = itemCWAdapter
+                    layoutManager = myLayoutManager
+                }
+            }
+        })
     }
 
     override fun onDestroy() {

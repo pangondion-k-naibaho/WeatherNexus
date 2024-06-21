@@ -3,7 +3,7 @@ package com.weathernexus.client.model
 class Constants {
     interface URL_CONSTANTS{
         companion object{
-            const val API_URL = "http://api.openweathermap.org/"
+            const val API_URL = "https://api.openweathermap.org/"
             const val IMG_URL = "https://openweathermap.org/img/wn//"
         }
     }
