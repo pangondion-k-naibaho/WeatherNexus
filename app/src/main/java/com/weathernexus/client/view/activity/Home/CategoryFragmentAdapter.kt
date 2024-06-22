@@ -7,23 +7,26 @@ import com.weathernexus.client.model.Constants.CATEGORY_CONSTANTS.Companion.CLEA
 import com.weathernexus.client.model.Constants.CATEGORY_CONSTANTS.Companion.CLOUDS
 import com.weathernexus.client.model.Constants.CATEGORY_CONSTANTS.Companion.RAIN
 import com.weathernexus.client.model.Constants.CATEGORY_CONSTANTS.Companion.SNOW
+import com.weathernexus.client.model.dataclass.current_weather.CurrentWeatherResponse
 import com.weathernexus.client.view.activity.Home.fragments.ClearFragment
 import com.weathernexus.client.view.activity.Home.fragments.CloudsFragment
 import com.weathernexus.client.view.activity.Home.fragments.RainFragment
 import com.weathernexus.client.view.activity.Home.fragments.SnowFragment
 
-class CategoryFragmentAdapter(activity: AppCompatActivity): FragmentStateAdapter(activity) {
+class CategoryFragmentAdapter(activity: AppCompatActivity, listWeather: ArrayList<CurrentWeatherResponse>): FragmentStateAdapter(activity) {
     override fun getItemCount(): Int {
         return 4
     }
 
+    val listCurrentWeather = listWeather
+
     override fun createFragment(position: Int): Fragment {
         var fragment: Fragment?= null
         when(position){
-            0 -> fragment = ClearFragment.newInstance(CLEAR)
-            1 -> fragment = CloudsFragment.newInstance(CLOUDS)
-            2 -> fragment = RainFragment.newInstance(RAIN)
-            3 -> fragment = SnowFragment.newInstance(SNOW)
+            0 -> fragment = ClearFragment.newInstance(CLEAR, listCurrentWeather)
+            1 -> fragment = CloudsFragment.newInstance(CLOUDS, listCurrentWeather)
+            2 -> fragment = RainFragment.newInstance(RAIN, listCurrentWeather)
+            3 -> fragment = SnowFragment.newInstance(SNOW, listCurrentWeather)
         }
 
         return fragment as Fragment

@@ -10,7 +10,7 @@ import retrofit2.http.Query
 interface ApiService {
     @GET("data/2.5/forecast")
     fun getForecast(
-        @Query("id")id: String,
+        @Query("id")id: Int,
         @Query("appid") appId: String = API_KEY
     ): Call<ForecastResponse>
 

@@ -4,20 +4,34 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.toLowerCase
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.weathernexus.client.R
 import com.weathernexus.client.databinding.ActivityHomeBinding
 import com.weathernexus.client.model.Constants
+import com.weathernexus.client.model.Constants.CATEGORY_CONSTANTS.Companion.CLEAR
+import com.weathernexus.client.model.Constants.CATEGORY_CONSTANTS.Companion.CLOUDS
+import com.weathernexus.client.model.Constants.CATEGORY_CONSTANTS.Companion.RAIN
+import com.weathernexus.client.model.Constants.CATEGORY_CONSTANTS.Companion.SNOW
+import com.weathernexus.client.model.Extensions.Companion.getListCityId
+import com.weathernexus.client.model.Extensions.Companion.getListCityName
+import com.weathernexus.client.model.Extensions.Companion.sortByFrequency
+import com.weathernexus.client.model.Extensions.Companion.updateFrequencies2
+import com.weathernexus.client.model.Extensions.Companion.updateFrequency
+import com.weathernexus.client.viewmodel.HomeViewModel
 
 class HomeActivity : AppCompatActivity(), CategoriesHomeCommunicator {
     private val TAG = HomeActivity::class.java.simpleName
     private lateinit var binding: ActivityHomeBinding
     private var selectedFragment: Fragment?= null
+    private val homeViewModel by viewModels<HomeViewModel>()
 
     companion object{
         fun newIntent(context: Context): Intent = Intent(context, HomeActivity::class.java)
@@ -32,22 +46,64 @@ class HomeActivity : AppCompatActivity(), CategoriesHomeCommunicator {
 
     private fun setUpView(){
         binding.apply {
-            val weatherCategoryAdapter = CategoryFragmentAdapter(this@HomeActivity)
-            vpCategoryWeather.apply {
-                adapter = weatherCategoryAdapter
-                registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
-                    override fun onPageSelected(position: Int) {
-                        super.onPageSelected(position)
-                        selectedFragment = supportFragmentManager.findFragmentByTag("f$position")
+
+            homeViewModel.getListForecast(getListCityId())
+
+            homeViewModel.getListCurrentWeather(getListCityName())
+
+            homeViewModel.isLoading.observe(this@HomeActivity, {
+                if(it) setForLoading(true) else setForLoading(false)
+            })
+
+            homeViewModel.isFail.observe(this@HomeActivity, {
+                Log.d(TAG, "isFail")
+            })
+
+            homeViewModel.listForecastCity.observe(this@HomeActivity, {listForecast->
+                homeViewModel.listCurrentWeather.observe(this@HomeActivity, {listWeather->
+                    val updatedListWeather = listWeather.updateFrequency(listForecast)
+
+                    val updatedListWeatherClear = updatedListWeather.sortByFrequency(CLEAR)
+                    val updatedListWeatherClouds = updatedListWeather.sortByFrequency(CLOUDS)
+                    val updatedListWeatherRain = updatedListWeather.sortByFrequency(RAIN)
+                    val updatedListWeatherSnow = updatedListWeather.sortByFrequency(SNOW)
+
+                    val weatherCategoryAdapter = CategoryFragmentAdapter(this@HomeActivity, updatedListWeather)
+                    vpCategoryWeather.apply {
+                        adapter = weatherCategoryAdapter
+                        registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
+                            override fun onPageSelected(position: Int) {
+                                super.onPageSelected(position)
+                                selectedFragment = supportFragmentManager.findFragmentByTag("f$position")
+                            }
+                        })
                     }
+
+                    val categoryTitleArray : Array<String> = Constants.CATEGORY_CONSTANTS.Companion.WEATHER.values().map { it.name.toLowerCase().capitalize() }.toTypedArray()
+
+                    TabLayoutMediator(tlCategoryWeather, vpCategoryWeather, false, true){tab, position->
+                        tab.text = categoryTitleArray[position]
+                    }.attach()
+
                 })
-            }
+            })
 
-            val categoryTitleArray : Array<String> = Constants.CATEGORY_CONSTANTS.Companion.WEATHER.values().map { it.name.toLowerCase().capitalize() }.toTypedArray()
-
-            TabLayoutMediator(tlCategoryWeather, vpCategoryWeather, false, true){tab, position->
-                tab.text = categoryTitleArray[position]
-            }.attach()
+//            val weatherCategoryAdapter = CategoryFragmentAdapter(this@HomeActivity)
+//            vpCategoryWeather.apply {
+//                adapter = weatherCategoryAdapter
+//                registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
+//                    override fun onPageSelected(position: Int) {
+//                        super.onPageSelected(position)
+//                        selectedFragment = supportFragmentManager.findFragmentByTag("f$position")
+//                    }
+//                })
+//            }
+//
+//            val categoryTitleArray : Array<String> = Constants.CATEGORY_CONSTANTS.Companion.WEATHER.values().map { it.name.toLowerCase().capitalize() }.toTypedArray()
+//
+//            TabLayoutMediator(tlCategoryWeather, vpCategoryWeather, false, true){tab, position->
+//                tab.text = categoryTitleArray[position]
+//            }.attach()
         }
     }
 

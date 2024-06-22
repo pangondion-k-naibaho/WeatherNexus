@@ -23,10 +23,10 @@ class Constants {
     interface CATEGORY_CONSTANTS{
         companion object{
 
-            const val CLEAR = "CLEAR"
-            const val CLOUDS = "CLOUDS"
-            const val RAIN = "RAIN"
-            const val SNOW = "SNOW"
+            const val CLEAR = "Clear"
+            const val CLOUDS = "Clouds"
+            const val RAIN = "Rain"
+            const val SNOW = "Snow"
 
             enum class WEATHER{
                 Clear, Clouds, Rain, Snow
@@ -44,6 +44,32 @@ class Constants {
             const val SANDY_HILLS = 5781070
             const val BELGRADE = 792680
             const val CALIFORNIA = 4350049
+        }
+    }
+
+    interface NAME_ID_CITY_CONSTANTS{
+        companion object{
+            val mapIdNameCity: Map<String, Int> = mapOf(
+                NAME_CITY_CONSTANTS.LAKE_ZURICH to ID_CITY_CONSTANTS.LAKE_ZURICH,
+                NAME_CITY_CONSTANTS.UPPER_HUNT to ID_CITY_CONSTANTS.UPPER_HUNT,
+                NAME_CITY_CONSTANTS.DAVOS to ID_CITY_CONSTANTS.DAVOS,
+                NAME_CITY_CONSTANTS.ALASKA to ID_CITY_CONSTANTS.ALASKA,
+                NAME_CITY_CONSTANTS.SAHARA_VILLAGE to ID_CITY_CONSTANTS.SAHARA_VILLAGE,
+                NAME_CITY_CONSTANTS.SANDY_HILLS to ID_CITY_CONSTANTS.SANDY_HILLS,
+                NAME_CITY_CONSTANTS.BELGRADE to ID_CITY_CONSTANTS.BELGRADE,
+                NAME_CITY_CONSTANTS.CALIFORNIA to ID_CITY_CONSTANTS.CALIFORNIA
+            )
+
+            val mapNameIdCity: Map<Int, String> = mapOf(
+                ID_CITY_CONSTANTS.LAKE_ZURICH to NAME_CITY_CONSTANTS.LAKE_ZURICH,
+                ID_CITY_CONSTANTS.UPPER_HUNT to NAME_CITY_CONSTANTS.UPPER_HUNT,
+                ID_CITY_CONSTANTS.DAVOS to NAME_CITY_CONSTANTS.DAVOS,
+                ID_CITY_CONSTANTS.ALASKA to NAME_CITY_CONSTANTS.ALASKA,
+                ID_CITY_CONSTANTS.SAHARA_VILLAGE to NAME_CITY_CONSTANTS.SAHARA_VILLAGE,
+                ID_CITY_CONSTANTS.SANDY_HILLS to NAME_CITY_CONSTANTS.SANDY_HILLS,
+                ID_CITY_CONSTANTS.BELGRADE to NAME_CITY_CONSTANTS.BELGRADE,
+                ID_CITY_CONSTANTS.CALIFORNIA to NAME_CITY_CONSTANTS.CALIFORNIA,
+            )
         }
     }
 

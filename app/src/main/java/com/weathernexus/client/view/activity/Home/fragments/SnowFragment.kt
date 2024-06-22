@@ -10,7 +10,16 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.weathernexus.client.R
 import com.weathernexus.client.databinding.FragmentWeathersBinding
+import com.weathernexus.client.model.Constants
+import com.weathernexus.client.model.Constants.CATEGORY_CONSTANTS.Companion.SNOW
 import com.weathernexus.client.model.Extensions
+import com.weathernexus.client.model.Extensions.Companion.sortByFrequency
+import com.weathernexus.client.model.Extensions.Companion.sortByFrequencyClear
+import com.weathernexus.client.model.Extensions.Companion.updateFrequencies
+import com.weathernexus.client.model.Extensions.Companion.updateFrequency
+import com.weathernexus.client.model.Extensions.Companion.updateFrequency2
+import com.weathernexus.client.model.Extensions.Companion.updateFrequency3
+import com.weathernexus.client.model.dataclass.current_weather.CurrentWeatherResponse
 import com.weathernexus.client.view.activity.Home.CategoriesHomeCommunicator
 import com.weathernexus.client.view.adapter.ItemCWAdapter
 import com.weathernexus.client.viewmodel.HomeViewModel
@@ -19,17 +28,20 @@ class SnowFragment : Fragment() {
     private val TAG = SnowFragment::class.java.simpleName
     private lateinit var binding: FragmentWeathersBinding
     private var deliveredCategory: String?= null
+    private lateinit var deliveredListWeather: ArrayList<CurrentWeatherResponse>
     private lateinit var categoriesHomeCommunicator: CategoriesHomeCommunicator
     private val homeViewModel by viewModels<HomeViewModel>()
     private var itemCWAdapter: ItemCWAdapter?= null
 
     companion object{
         private const val DELIVERED_CATEGORY = "DELIVERED_CATEGORY"
+        private const val DELIVERED_WEATHER = "DELIVERED_WEATHER"
 
-        fun newInstance(deliveryCategory: String?= null): SnowFragment {
+        fun newInstance(deliveryCategory: String?= null, listWeather: ArrayList<CurrentWeatherResponse>): SnowFragment {
             val fragment = SnowFragment()
             val bundle = Bundle()
             bundle.putString(DELIVERED_CATEGORY, deliveryCategory)
+            bundle.putSerializable(DELIVERED_WEATHER, listWeather)
             fragment.arguments = bundle
             return fragment
         }
@@ -49,7 +61,9 @@ class SnowFragment : Fragment() {
         )
 
         deliveredCategory = arguments?.getString(DELIVERED_CATEGORY).toString()
+        deliveredListWeather = arguments?.getSerializable(DELIVERED_WEATHER) as ArrayList<CurrentWeatherResponse>
         Log.d(TAG, "deliveredCategory: $deliveredCategory")
+        Log.d(TAG, "deliveredListWeather: $deliveredListWeather")
 
         categoriesHomeCommunicator = activity as CategoriesHomeCommunicator
 
@@ -59,28 +73,15 @@ class SnowFragment : Fragment() {
     }
 
     private fun setUpView(){
-        homeViewModel.getListCurrentWeather(Extensions.getListCityName())
-
-        homeViewModel.isLoading.observe(this@SnowFragment.requireActivity(), {
-            if(it) categoriesHomeCommunicator.startLoading() else categoriesHomeCommunicator.stopLoading()
-        })
-
-        homeViewModel.isFail.observe(this@SnowFragment.requireActivity(), {
-            if(it) Log.d(TAG, "failed")
-        })
-
-        homeViewModel.listCurrentWeather.observe(this@SnowFragment.requireActivity(), {listWeather->
-            binding.apply {
-                rvItemNews.apply {
-                    itemCWAdapter = ItemCWAdapter(listWeather)
-                    val myLayoutManager = LinearLayoutManager(this@SnowFragment.requireActivity())
-
-
-                    adapter = itemCWAdapter
-                    layoutManager = myLayoutManager
-                }
+        binding.apply {
+            val updatedListWeather = deliveredListWeather.sortByFrequencyClear()
+            val rvAdapter = ItemCWAdapter(updatedListWeather,SNOW)
+            val rvLayoutManager = LinearLayoutManager(this@SnowFragment.requireActivity())
+            rvItemNews.apply {
+                adapter = rvAdapter
+                layoutManager = rvLayoutManager
             }
-        })
+        }
     }
 
     override fun onDestroy() {

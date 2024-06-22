@@ -1,5 +1,6 @@
 package com.weathernexus.client.view.adapter
 
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.weathernexus.client.R
 import com.weathernexus.client.databinding.ItemCityWeatherBinding
+import com.weathernexus.client.model.Constants.CATEGORY_CONSTANTS.Companion.CLEAR
+import com.weathernexus.client.model.Constants.CATEGORY_CONSTANTS.Companion.CLOUDS
+import com.weathernexus.client.model.Constants.CATEGORY_CONSTANTS.Companion.RAIN
 import com.weathernexus.client.model.Constants.FORMATTING.Companion.IMAGE_FORMAT
 import com.weathernexus.client.model.Constants.URL_CONSTANTS.Companion.IMG_URL
 import com.weathernexus.client.model.Extensions.Companion.kelvinToCelsius
@@ -15,7 +19,8 @@ import com.weathernexus.client.model.Extensions.Companion.roundToTwoDecimalPlace
 import com.weathernexus.client.model.dataclass.current_weather.CurrentWeatherResponse
 
 class ItemCWAdapter(
-    var data: ArrayList<CurrentWeatherResponse>
+    var data: ArrayList<CurrentWeatherResponse>,
+    var freqNeedDisplayed: String
 ): RecyclerView.Adapter<ItemCWAdapter.ItemHolder>() {
 
     inner class ItemHolder(itemView: View): RecyclerView.ViewHolder(itemView){
@@ -27,6 +32,27 @@ class ItemCWAdapter(
                 tvAvgTemp.text = String.format(resources.getString(R.string.tvAvgTemp), item.main!!.temp!!.kelvinToCelsius().roundToTwoDecimalPlaces().toString())
                 tvMinTemp.text = String.format(resources.getString(R.string.tvMinTemp), item.main.temp_min!!.kelvinToCelsius().roundToTwoDecimalPlaces().toString())
                 tvMaxTemp.text = String.format(resources.getString(R.string.tvMaxTemp), item.main.temp_max!!.kelvinToCelsius().roundToTwoDecimalPlaces().toString())
+                val frequency = when(freqNeedDisplayed){
+                    CLEAR -> item.frequencyClear
+                    CLOUDS -> item.frequencyClouds
+                    RAIN -> item.frequencyRain
+                    else -> item.frequencySnow
+                }
+
+                tvFrequency.apply {
+                    when{
+                        frequency in 0..99 ->{
+                            val newSizeInPixels = 50
+                            setTextSize(TypedValue.COMPLEX_UNIT_SP, newSizeInPixels.toFloat())
+                            text = frequency.toString()
+                        }
+                        else ->{
+                            val newSizeInPixels = 30
+                            setTextSize(TypedValue.COMPLEX_UNIT_SP, newSizeInPixels.toFloat())
+                            text = frequency.toString()
+                        }
+                    }
+                }
 
                 val imageUrl = IMG_URL+item.weather!!.get(0).icon+IMAGE_FORMAT
 

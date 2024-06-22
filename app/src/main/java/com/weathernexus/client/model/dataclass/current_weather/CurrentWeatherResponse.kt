@@ -55,5 +55,8 @@ data class CurrentWeatherResponse(
     @field:SerializedName("cod")
     val cod: Int?= 0,
 
-    var frequency: Int?= 0
+    var frequencyClear: Int?= 0,
+    var frequencyClouds: Int?= 0,
+    var frequencyRain: Int?= 0,
+    var frequencySnow: Int?= 0,
 ):Parcelable
