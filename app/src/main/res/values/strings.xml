@@ -11,4 +11,6 @@
     <string name="tvDummyMinTemp">min: 16.31\u00B0C</string>
     <string name="tvDummyMaxTemp">max: 19.4\u00B0C</string>
     <string name="tvDummyAvgTemp">17.76\u00B0C</string>
+    <string name="menu_about">About</string>
+    <string name="tvCredit">Weather Nexus © 2024 - V1.0.0</string>
 </resources>

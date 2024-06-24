@@ -5,7 +5,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
+import android.widget.PopupMenu
 import androidx.activity.viewModels
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.toLowerCase
@@ -33,6 +35,7 @@ import com.weathernexus.client.model.Extensions.Companion.updateFrequencyClear
 import com.weathernexus.client.model.Extensions.Companion.updateFrequencyClouds
 import com.weathernexus.client.model.Extensions.Companion.updateFrequencyRain
 import com.weathernexus.client.model.Extensions.Companion.updateFrequencySnow
+import com.weathernexus.client.view.activity.About.AboutActivity
 import com.weathernexus.client.viewmodel.HomeViewModel
 
 class HomeActivity : AppCompatActivity(), CategoriesHomeCommunicator {
@@ -96,22 +99,29 @@ class HomeActivity : AppCompatActivity(), CategoriesHomeCommunicator {
                 })
             })
 
-//            val weatherCategoryAdapter = CategoryFragmentAdapter(this@HomeActivity)
-//            vpCategoryWeather.apply {
-//                adapter = weatherCategoryAdapter
-//                registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
-//                    override fun onPageSelected(position: Int) {
-//                        super.onPageSelected(position)
-//                        selectedFragment = supportFragmentManager.findFragmentByTag("f$position")
-//                    }
-//                })
-//            }
-//
-//            val categoryTitleArray : Array<String> = Constants.CATEGORY_CONSTANTS.Companion.WEATHER.values().map { it.name.toLowerCase().capitalize() }.toTypedArray()
-//
-//            TabLayoutMediator(tlCategoryWeather, vpCategoryWeather, false, true){tab, position->
-//                tab.text = categoryTitleArray[position]
-//            }.attach()
+            btnMore.setOnClickListener(object: View.OnClickListener{
+                override fun onClick(v: View?) {
+                    val popUpMenu = PopupMenu(this@HomeActivity, v!!)
+                    popUpMenu.menuInflater.inflate(R.menu.home_menu, popUpMenu.menu)
+
+                    popUpMenu.setOnMenuItemClickListener(object: PopupMenu.OnMenuItemClickListener{
+                        override fun onMenuItemClick(item: MenuItem?): Boolean {
+                            when(item!!.itemId){
+                                R.id.menuAbout ->{
+                                    startActivity(
+                                        AboutActivity.newIntent(this@HomeActivity)
+                                    )
+                                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                                }
+                            }
+                            return true
+                        }
+                    })
+                    popUpMenu.show()
+                }
+
+            })
+
         }
     }
 
