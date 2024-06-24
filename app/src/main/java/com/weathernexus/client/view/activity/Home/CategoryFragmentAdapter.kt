@@ -13,20 +13,29 @@ import com.weathernexus.client.view.activity.Home.fragments.CloudsFragment
 import com.weathernexus.client.view.activity.Home.fragments.RainFragment
 import com.weathernexus.client.view.activity.Home.fragments.SnowFragment
 
-class CategoryFragmentAdapter(activity: AppCompatActivity, listWeather: ArrayList<CurrentWeatherResponse>): FragmentStateAdapter(activity) {
+class CategoryFragmentAdapter(
+    activity: AppCompatActivity,
+    listWeatherClear: ArrayList<CurrentWeatherResponse>,
+    listWeatherClouds: ArrayList<CurrentWeatherResponse>,
+    listWeatherRain: ArrayList<CurrentWeatherResponse>,
+    listWeatherSnow: ArrayList<CurrentWeatherResponse>,
+): FragmentStateAdapter(activity) {
     override fun getItemCount(): Int {
         return 4
     }
 
-    val listCurrentWeather = listWeather
+    val listCurrentWeatherClear = listWeatherClear
+    val listCurrentWeatherClouds = listWeatherClouds
+    val listCurrentWeatherRain = listWeatherRain
+    val listCurrentWeatherSnow = listWeatherSnow
 
     override fun createFragment(position: Int): Fragment {
         var fragment: Fragment?= null
         when(position){
-            0 -> fragment = ClearFragment.newInstance(CLEAR, listCurrentWeather)
-            1 -> fragment = CloudsFragment.newInstance(CLOUDS, listCurrentWeather)
-            2 -> fragment = RainFragment.newInstance(RAIN, listCurrentWeather)
-            3 -> fragment = SnowFragment.newInstance(SNOW, listCurrentWeather)
+            0 -> fragment = ClearFragment.newInstance(CLEAR, listCurrentWeatherClear)
+            1 -> fragment = CloudsFragment.newInstance(CLOUDS, listCurrentWeatherClouds)
+            2 -> fragment = RainFragment.newInstance(RAIN, listCurrentWeatherRain)
+            3 -> fragment = SnowFragment.newInstance(SNOW, listCurrentWeatherSnow)
         }
 
         return fragment as Fragment

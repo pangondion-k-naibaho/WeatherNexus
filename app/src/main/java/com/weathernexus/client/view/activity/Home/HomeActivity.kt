@@ -24,7 +24,15 @@ import com.weathernexus.client.model.Extensions.Companion.getListCityId
 import com.weathernexus.client.model.Extensions.Companion.getListCityName
 import com.weathernexus.client.model.Extensions.Companion.sortByFrequency
 import com.weathernexus.client.model.Extensions.Companion.updateFrequencies2
+import com.weathernexus.client.model.Extensions.Companion.updateFrequenciesClear
+import com.weathernexus.client.model.Extensions.Companion.updateFrequenciesCloud
+import com.weathernexus.client.model.Extensions.Companion.updateFrequenciesRain
+import com.weathernexus.client.model.Extensions.Companion.updateFrequenciesSnow
 import com.weathernexus.client.model.Extensions.Companion.updateFrequency
+import com.weathernexus.client.model.Extensions.Companion.updateFrequencyClear
+import com.weathernexus.client.model.Extensions.Companion.updateFrequencyClouds
+import com.weathernexus.client.model.Extensions.Companion.updateFrequencyRain
+import com.weathernexus.client.model.Extensions.Companion.updateFrequencySnow
 import com.weathernexus.client.viewmodel.HomeViewModel
 
 class HomeActivity : AppCompatActivity(), CategoriesHomeCommunicator {
@@ -63,12 +71,12 @@ class HomeActivity : AppCompatActivity(), CategoriesHomeCommunicator {
                 homeViewModel.listCurrentWeather.observe(this@HomeActivity, {listWeather->
                     val updatedListWeather = listWeather.updateFrequency(listForecast)
 
-                    val updatedListWeatherClear = updatedListWeather.sortByFrequency(CLEAR)
-                    val updatedListWeatherClouds = updatedListWeather.sortByFrequency(CLOUDS)
-                    val updatedListWeatherRain = updatedListWeather.sortByFrequency(RAIN)
-                    val updatedListWeatherSnow = updatedListWeather.sortByFrequency(SNOW)
+                    val updatedListWeatherClear = listWeather.updateFrequencyClear(listForecast)
+                    val updatedListWeatherClouds = listWeather.updateFrequencyClouds(listForecast)
+                    val updatedListWeatherRain = listWeather.updateFrequencyRain(listForecast)
+                    val updatedListWeatherSnow = listWeather.updateFrequencySnow(listForecast)
 
-                    val weatherCategoryAdapter = CategoryFragmentAdapter(this@HomeActivity, updatedListWeather)
+                    val weatherCategoryAdapter = CategoryFragmentAdapter(this@HomeActivity, updatedListWeatherClear, updatedListWeatherClouds, updatedListWeatherRain, updatedListWeatherSnow)
                     vpCategoryWeather.apply {
                         adapter = weatherCategoryAdapter
                         registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){

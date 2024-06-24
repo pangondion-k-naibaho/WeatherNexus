@@ -15,6 +15,7 @@ import com.weathernexus.client.model.Constants.CATEGORY_CONSTANTS.Companion.CLOU
 import com.weathernexus.client.model.Extensions
 import com.weathernexus.client.model.Extensions.Companion.sortByFrequency
 import com.weathernexus.client.model.Extensions.Companion.sortByFrequencyClear
+import com.weathernexus.client.model.Extensions.Companion.sortByFrequencyClouds
 import com.weathernexus.client.model.Extensions.Companion.updateFrequencies
 import com.weathernexus.client.model.Extensions.Companion.updateFrequency
 import com.weathernexus.client.model.Extensions.Companion.updateFrequency2
@@ -75,7 +76,7 @@ class CloudsFragment : Fragment() {
 
     private fun setUpView(){
         binding.apply {
-            val updatedListWeather = deliveredListWeather.sortByFrequencyClear()
+            val updatedListWeather = deliveredListWeather.sortByFrequencyClouds()
             val rvAdapter = ItemCWAdapter(updatedListWeather,CLOUDS)
             val rvLayoutManager = LinearLayoutManager(this@CloudsFragment.requireActivity())
             rvItemNews.apply {

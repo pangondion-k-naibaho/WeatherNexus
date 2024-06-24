@@ -71,6 +71,21 @@ class Extensions {
             return this
         }
 
+        fun ArrayList<CurrentWeatherResponse>.sortByFrequencyRain(): ArrayList<CurrentWeatherResponse>{
+            this.sortByDescending { it.frequencyRain }
+            return this
+        }
+
+        fun ArrayList<CurrentWeatherResponse>.sortByFrequencyClouds(): ArrayList<CurrentWeatherResponse>{
+            this.sortByDescending { it.frequencyClouds }
+            return this
+        }
+
+        fun ArrayList<CurrentWeatherResponse>.sortByFrequencySnow(): ArrayList<CurrentWeatherResponse>{
+            this.sortByDescending { it.frequencySnow }
+            return this
+        }
+
         fun ArrayList<CurrentWeatherResponse>.updateFrequencies_e2(listForecast: ArrayList<ForecastResponse>):ArrayList<CurrentWeatherResponse>{
             for(i in this.indices){
                 for(j in listForecast.indices){
@@ -209,6 +224,158 @@ class Extensions {
                     }
                 }
             }
+            return this
+        }
+
+        fun ArrayList<CurrentWeatherResponse>.updateFrequenciesCloud(forecastResponses: ArrayList<ForecastResponse>): ArrayList<CurrentWeatherResponse> {
+            for (currentWeather in this) {
+                val matchingForecast = forecastResponses.find { forecast ->
+                    forecast.city?.name == currentWeather.name
+                }
+
+                matchingForecast?.list?.forEach { detailWeather ->
+                    when (detailWeather.weather!!.firstOrNull()?.main) {
+                        CLOUDS -> currentWeather.frequencyClouds = (currentWeather.frequencyClouds ?: 0) + 1
+                        else -> {}
+                    }
+                }
+            }
+            return this
+        }
+
+        fun ArrayList<CurrentWeatherResponse>.updateFrequenciesClear(forecastResponses: ArrayList<ForecastResponse>): ArrayList<CurrentWeatherResponse> {
+            for (currentWeather in this) {
+                val matchingForecast = forecastResponses.find { forecast ->
+                    forecast.city?.name == currentWeather.name
+                }
+
+                matchingForecast?.list?.forEach { detailWeather ->
+                    when (detailWeather.weather!!.firstOrNull()?.main) {
+                        CLEAR -> currentWeather.frequencyClear = (currentWeather.frequencyClear ?: 0) + 1
+                        else -> {}
+                    }
+                }
+            }
+            return this
+        }
+
+        fun ArrayList<CurrentWeatherResponse>.updateFrequenciesRain(forecastResponses: ArrayList<ForecastResponse>): ArrayList<CurrentWeatherResponse> {
+            for (currentWeather in this) {
+                val matchingForecast = forecastResponses.find { forecast ->
+                    forecast.city?.name == currentWeather.name
+                }
+
+                matchingForecast?.list?.forEach { detailWeather ->
+                    when (detailWeather.weather!!.firstOrNull()?.main) {
+                        RAIN -> currentWeather.frequencyRain = (currentWeather.frequencyRain ?: 0) + 1
+                        else -> {}
+                    }
+                }
+            }
+            return this
+        }
+
+        fun ArrayList<CurrentWeatherResponse>.updateFrequenciesSnow(forecastResponses: ArrayList<ForecastResponse>): ArrayList<CurrentWeatherResponse> {
+            for (currentWeather in this) {
+                val matchingForecast = forecastResponses.find { forecast ->
+                    forecast.city?.name == currentWeather.name
+                }
+
+                matchingForecast?.list?.forEach { detailWeather ->
+                    when (detailWeather.weather!!.firstOrNull()?.main) {
+                        SNOW -> currentWeather.frequencySnow = (currentWeather.frequencySnow ?: 0) + 1
+                        else -> {}
+                    }
+                }
+            }
+            return this
+        }
+
+        fun ArrayList<CurrentWeatherResponse>.updateFrequencyClear(listForecast: ArrayList<ForecastResponse>):ArrayList<CurrentWeatherResponse> {
+            // Iterasi melalui setiap item di listWeather (this merujuk pada ArrayList<CurrentWeatherResponse>)
+            this.forEach { currentWeather ->
+                // Iterasi melalui setiap item di listForecast
+                listForecast.forEach { forecast ->
+                    // Cek apakah nama kota sama
+                    if (forecast.city?.name == currentWeather.name) {
+                        // Iterasi setiap detail cuaca dalam forecast.list
+                        forecast.list?.forEach { detailWeather ->
+                            // Cek apakah kondisi cuaca sesuai dengan yang diinginkan
+                            when{
+                                (detailWeather.weather?.any { it.main == CLEAR } == true) -> currentWeather.frequencyClear = currentWeather.frequencyClear!! + 1
+                                else -> {}
+                            }
+                        }
+                    }
+                }
+            }
+
+            return this
+        }
+
+        fun ArrayList<CurrentWeatherResponse>.updateFrequencyClouds(listForecast: ArrayList<ForecastResponse>):ArrayList<CurrentWeatherResponse> {
+            // Iterasi melalui setiap item di listWeather (this merujuk pada ArrayList<CurrentWeatherResponse>)
+            this.forEach { currentWeather ->
+                // Iterasi melalui setiap item di listForecast
+                listForecast.forEach { forecast ->
+                    // Cek apakah nama kota sama
+                    if (forecast.city?.name == currentWeather.name) {
+                        // Iterasi setiap detail cuaca dalam forecast.list
+                        forecast.list?.forEach { detailWeather ->
+                            // Cek apakah kondisi cuaca sesuai dengan yang diinginkan
+                            when{
+                                (detailWeather.weather?.any { it.main == CLOUDS } == true) -> currentWeather.frequencyClouds = currentWeather.frequencyClouds!! + 1
+                                else ->{}
+                            }
+                        }
+                    }
+                }
+            }
+
+            return this
+        }
+
+        fun ArrayList<CurrentWeatherResponse>.updateFrequencyRain(listForecast: ArrayList<ForecastResponse>):ArrayList<CurrentWeatherResponse> {
+            // Iterasi melalui setiap item di listWeather (this merujuk pada ArrayList<CurrentWeatherResponse>)
+            this.forEach { currentWeather ->
+                // Iterasi melalui setiap item di listForecast
+                listForecast.forEach { forecast ->
+                    // Cek apakah nama kota sama
+                    if (forecast.city?.name == currentWeather.name) {
+                        // Iterasi setiap detail cuaca dalam forecast.list
+                        forecast.list?.forEach { detailWeather ->
+                            // Cek apakah kondisi cuaca sesuai dengan yang diinginkan
+                            when{
+                                (detailWeather.weather?.any { it.main == RAIN } == true) -> currentWeather.frequencyRain = currentWeather.frequencyRain!! + 1
+                                else ->{}
+                            }
+                        }
+                    }
+                }
+            }
+
+            return this
+        }
+
+        fun ArrayList<CurrentWeatherResponse>.updateFrequencySnow(listForecast: ArrayList<ForecastResponse>):ArrayList<CurrentWeatherResponse> {
+            // Iterasi melalui setiap item di listWeather (this merujuk pada ArrayList<CurrentWeatherResponse>)
+            this.forEach { currentWeather ->
+                // Iterasi melalui setiap item di listForecast
+                listForecast.forEach { forecast ->
+                    // Cek apakah nama kota sama
+                    if (forecast.city?.name == currentWeather.name) {
+                        // Iterasi setiap detail cuaca dalam forecast.list
+                        forecast.list?.forEach { detailWeather ->
+                            // Cek apakah kondisi cuaca sesuai dengan yang diinginkan
+                            when{
+                                (detailWeather.weather?.any { it.main == SNOW } == true) -> currentWeather.frequencySnow = currentWeather.frequencySnow!! + 1
+                                else ->{}
+                            }
+                        }
+                    }
+                }
+            }
+
             return this
         }
 
